@@ -6,7 +6,7 @@
 
 ## Overview
 This repository contains the evaluation code for the paper [**"Neural Localizer Fields for Continuous 3D Human Pose and Shape Estimation"**](https://arxiv.org/abs/2407.07532) on a custom dataset. The code computes the MPJPE (Mean Per Joint Position Error) using the Neural Localizer Fields (NLF) model, projects the 3D SMPL model to 2D, and visualizes the results by saving the images as well as generating a video.  
-A sample output video can be seen [on youtube](https://youtu.be/8d8DcvCQFGs) (Note: The model is not fine-tuned for the Drive&Act dataset, so the results are not meant as a benchmark).
+A sample output video can be seen [on youtube](https://youtu.be/8d8DcvCQFGs) (Note: The model is not fine-tuned for the Drive&Act dataset -- the video has illustrative purposes only).
 
 For comparison, previews of other methods can be also seen on youtube:
 - [SMPLest-X](https://youtu.be/rc0tO6B85pU)
@@ -46,27 +46,20 @@ This project is configured to use the [**uv**](https://github.com/astral-sh/uv) 
    pip install uv
    ```
 
-3. **Initialize the Project**
-   ```bash
-   uv init
-   ```
-   - This command will detect your `pyproject.toml` and prepare the project structure for `uv`.
-   - You should see `uv` creating or updating files such as the `.uv/` folder for local config.
-
-4. **Sync/Install Dependencies**
+3. **Sync/Install Dependencies**
    ```bash
    uv sync
    ```
    - `uv` reads the `[project]` and `[project].dependencies` sections of your `pyproject.toml`, resolves them, and installs everything into a dedicated virtual environment (in `.uv/venv/` by default).
    - After this step, all dependencies listed in `pyproject.toml` should be installed.
 
-5. **Activate the `uv` Virtual Environment** *(optional but recommended)*
+4. **Activate the `uv` Virtual Environment** *(optional)*
    ```bash
    source .uv/venv/bin/activate
    ```
    or on Windows:
    ```bash
-   .uv\venv\Scripts\activate
+   .venv\Scripts\activate
    ```
    Now, any Python scripts you run will use the environment that `uv` created.
 
@@ -81,32 +74,6 @@ If you do not wish to use `uv`, you can extract the dependencies
 from the `[project].dependencies` section of the `pyproject.toml` and place 
 them in a `requirements.txt`, or set them up in a conda environment. The project 
 should remain compatible with a standard `pip install -r requirements.txt` approach. 
-
-A minimal dependencies excerpt might look like:
-```bash
-chumpy==0.70
-einops==0.8.1
-json-tricks==3.17.3
-matplotlib==3.7.5
-numpy==1.23.5
-opencv-python==4.8.1.78
-pillow>=9.1.1
-pyopengl>=3.1.0
-pyrender==0.1.45
-smplx==0.1.28
-timm==1.0.14
-torch==1.13.1
-torchvision==0.14.1
-torchaudio==0.13.1
-torchgeometry>=0.1.2
-tqdm==4.67.1
-trimesh==4.6.2
-ultralytics==8.3.75
-yacs>=0.1.8
-gpt-repository-loader>=0.10.0
-numba>=0.60.0
-boxlib
-```
 (You may need to select the correct PyTorch binaries for your CUDA version.)
 
 ---
@@ -198,14 +165,14 @@ NeuralLocalizerFields/
   │    ├── visualization_utils.py
   │    └── ...
   ├── data/
-  │    ├── some_folder_for_extracted_frames/
-  │    └── ...
+  │    ├── input/
+  │    └── output/
   ├── human_models/
   │    ├── smpl
   │    │    ├── SMPL_MALE.pkl
   │    │    └── ...
   ├── models/
-  │    ├── nlf_s_multi.torchscript
+  │    ├── nlf_l_multi.torchscript
   │    └── ...
   ├── README.md
   └── ...
@@ -222,8 +189,11 @@ NeuralLocalizerFields/
    - There is a bug in the compiled TorchScript models that occasionally causes the model to crash.  
    - *Mitigation:* If a crash occurs, the code will skip the problematic batch and continues processing the next one. The skipped frames are still outputted, but without the pose estimation.
 
-2. **Drive&Act Dataset Constraints**  
-   - The code is tailored to the [Drive&Act dataset](https://driveandact.com/). You may need to adapt certain indexing logic if you want to apply it to a different dataset structure.
+2. **Drive & Act Dataset**  
+   - The code is tailored to the [Drive&Act dataset](https://driveandact.com/). You may need to adapt certain indexing logic if you want to apply it 
+   to a different dataset structure. Additionally, it uses openpose annotations, so ensure your dataset has similar annotations.
+   The SMPL model unfortunately regresses other type of annotation, therefore only directly comparable and visible joints are 
+   used to compute MPJPE.
 
 3. **Single Person Assumption**  
    - The code currently assumes only one person is present in each frame. If you require multi-person support, you can modify the for-loops that handle bounding boxes or persons.
