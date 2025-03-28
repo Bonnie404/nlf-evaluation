@@ -1,3 +1,13 @@
+# The code is adapted version of the code provided by the authors of the paper:
+
+# @article{
+# yin2025smplest,
+# title={SMPLest-X: Ultimate Scaling for Expressive Human Pose and Shape Estimation},
+# author={Yin, Wanqi and Cai, Zhongang and Wang, Ruisi and Zeng, Ailing and Wei, Chen and Sun, Qingping and Mei, Haiyi and Wang, Yanjun and Pang, Hui En and Zhang, Mingyuan and Zhang, Lei and Loy, Chen Change and Yamashita, Atsushi and Yang, Lei and Liu, Ziwei},
+# journal={arXiv preprint arXiv:2501.09782},
+# year={2025}
+# }
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
