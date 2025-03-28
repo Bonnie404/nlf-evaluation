@@ -27,7 +27,7 @@ def load_config(config_path="config.yaml"):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="3D Pose Inference Script")
-    parser.add_argument("--config", type=str, default="config.yaml",
+    parser.add_argument("--config", type=str, default=osp.join(os.path.dirname(os.getcwd()), "configs", "config.yaml"),
                         help="Path to YAML configuration file")
     return parser.parse_args()
 
@@ -532,20 +532,30 @@ def parallel_image_loading(image_start, image_end, annotations, video_timestamps
     return image_paths, frame_indices
 
 
+def to_full_path(cwd, relative_path):
+    """
+    Converts a relative path to an absolute path based on the current working directory.
+    """
+    if not relative_path.startswith(cwd):
+        return osp.join(cwd, relative_path)
+    return relative_path
+
 def main():
     args = parse_args()
     config = load_config(args.config)
 
-    annotations_file_csv = config['files']['annotations_file_csv']
-    video_file = config['files']['video_file']
-    timestamps_file = config['files']['timestamps_file']
-    calibration_file = config['files']['calibration_file']
-    output_folder = config['files']['output_folder']
-    image_folder = config['files']['image_folder']
+    cwd = osp.dirname(osp.dirname(os.path.abspath(__file__)))
+    annotations_file_csv = to_full_path(cwd, config['files']['annotations_file_csv'])
+    video_file = to_full_path(cwd, config['files']['video_file'])
+    timestamps_file = to_full_path(cwd, config['files']['timestamps_file'])
+    calibration_file = to_full_path(cwd, config['files']['calibration_file'])
+    output_frames_folder = to_full_path(cwd, config['files']['output_frames_folder'])
+    output_video_folder = to_full_path(cwd, config['files']['output_video_folder'])
+    image_folder = to_full_path(cwd, config['files']['image_folder'])
 
-    nlf_model_file_path = config['nlf']['nlf_model_path']
+    nlf_model_file_path = to_full_path(cwd, config['nlf']['nlf_model_path'])
 
-    smpl_model_path = config['smpl']['smpl_model_path']
+    smpl_model_path = to_full_path(cwd, config['smpl']['smpl_model_path'])
 
     image_start = config['video_processing']['image_start']
     length = config['video_processing']['length']
@@ -622,7 +632,7 @@ def main():
                                 fontScale=1.0,
                                 color=(0, 0, 255),
                                 thickness=2)
-                    output_path = osp.join(output_folder, f"{frame_idx:06d}.jpg")
+                    output_path = osp.join(output_frames_folder, f"{frame_idx:06d}.jpg")
                     cv2.imwrite(output_path, vis_image)
                     continue
 
@@ -714,7 +724,7 @@ def main():
 
                     cv2.line(vis_image, (x_gt, y_gt), (x_pred, y_pred), (255, 255, 0), 2)
 
-                output_path = osp.join(output_folder, f"{frame_idx:06d}.jpg")
+                output_path = osp.join(output_frames_folder, f"{frame_idx:06d}.jpg")
                 cv2.imwrite(output_path, vis_image)
                 print(f"[Frame {frame_idx}] MPJPE = {mpjpe_3d_mm:.1f} mm -> Saved {output_path}")
         except:
@@ -722,17 +732,17 @@ def main():
                 cv2.putText(image, "Error during inference", (50, 50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1.0,
                             color=(0, 0, 255), thickness=2)
                 frame_idx = annotations_batch[b][0]
-                cv2.imwrite(osp.join(output_folder, f'{frame_idx:06d}.jpg'), image)
+                cv2.imwrite(osp.join(output_frames_folder, f'{frame_idx:06d}.jpg'), image)
 
     cap.release()
 
     # save eval results to csv file
-    output_csv_file = osp.join(output_folder, "mpjpe_results.csv")
+    output_csv_file = osp.join(output_frames_folder, "mpjpe_results.csv")
     save_mpjpe_to_csv(mpjpe_values, output_csv_file)
 
     # save frames to video
-    output_video_path = osp.join(output_folder, "output_video.avi")
-    frames_to_video(output_folder, output_video_path, video_timestamps)
+    output_video_path = osp.join(output_video_folder, "output_video.avi")
+    frames_to_video(output_frames_folder, output_video_path, video_timestamps)
 
     print("Done.")
 

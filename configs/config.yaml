@@ -1,22 +1,23 @@
 files:
-  annotations_file_csv: "D:/tu_wien/projekt/code/resources/dataset/iccv_openpose_3d/openpose_3d/vp1/run1b_2018-05-29-14-02-47.ids_1.openpose.3d.csv"
-  video_file: "D:/tu_wien/projekt/code/resources/dataset/a_column_driver/a_column_driver/vp1/run1b_2018-05-29-14-02-47.ids_5.mp4"
-  timestamps_file: "D:/tu_wien/projekt/code/resources/dataset/a_column_driver/a_column_driver/vp1/run1b_2018-05-29-14-02-47.ids_5.timestamps"
-  calibration_file: "D:/tu_wien/projekt/code/resources/dataset/a_column_driver/a_column_driver/vp1/run1b_2018-05-29-14-02-47.ids_5.calibration.json"
-  output_folder: "D:/tu_wien/projekt/code/demo/output_frames/run1b_2018-05-29-14-02-47.ids_5"
-  image_folder: "D:/tu_wien/projekt/code/demo/input_frames/run1b_2018-05-29-14-02-47.ids_5"
+  annotations_file_csv: 'data\input\video\run1b_2018-05-29-14-02-47.ids_1.openpose.3d.csv'
+  video_file: 'data\input\video\run1b_2018-05-29-14-02-47.ids_5.mp4'
+  image_folder: 'data\input\frames'
+  timestamps_file: 'data\input\video\run1b_2018-05-29-14-02-47.ids_5.timestamps'
+  calibration_file: 'data\input\video\run1b_2018-05-29-14-02-47.ids_5.calibration.json'
+  output_frames_folder: 'data\output\frames'
+  output_video_folder: 'data\output\video'
 
 smpl:
-  smpl_model_path: "D:/tu_wien/projekt/code/Neural-Localizer-Fields-for-Continuous-3D-Human-Pose-and-Shape-Estimation/human_body_models/smpl"
+  smpl_model_path: 'human_body_models\smpl'
 
 nlf:
-  nlf_model_path: "D:/tu_wien/projekt/code/Neural-Localizer-Fields-for-Continuous-3D-Human-Pose-and-Shape-Estimation/models/nlf_l_multi.torchscript"
+  nlf_model_path: 'models\nlf_l_multi.torchscript'
 
 video_processing:
   extract_frames: false
-  image_start: 0
-  length: 37000
-  batch_size: 16
+  image_start: 25000
+  length: 10
+  batch_size: 2
 
 parallel:
   max_workers: 16
