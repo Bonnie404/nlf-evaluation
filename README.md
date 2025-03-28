@@ -35,8 +35,8 @@ This project is configured to use the [**uv**](https://github.com/astral-sh/uv) 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/<username>/<repo_name>.git
-   cd <repo_name>
+   git clone https://github.com/Bonnie404/nlf-evaluation.git
+   cd nlf-evaluation
    ```
    Make sure your current directory contains the `pyproject.toml` file.
 
@@ -69,10 +69,6 @@ This project is configured to use the [**uv**](https://github.com/astral-sh/uv) 
    .uv\venv\Scripts\activate
    ```
    Now, any Python scripts you run will use the environment that `uv` created.
-
-#### Troubleshooting
-- If you encounter an error about missing dependencies, verify that `uv sync` completed successfully.  
-- If you prefer installing dependencies via a different method (e.g., pip or conda), you can extract them from `pyproject.toml` and install them in your own environment. 
 
 Once completed, you should have:
 1. A local `uv`-managed environment containing all required packages.
