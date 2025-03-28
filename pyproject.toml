@@ -1,0 +1,50 @@
+[project]
+name = "Practicum-24W"
+version = "0.1.0"
+description = "SMPL Pose Estimation"
+requires-python = ">=3.10"
+dependencies = [
+    "chumpy==0.70",
+    "einops==0.8.1",
+    "json-tricks==3.17.3",
+    "matplotlib==3.7.5",
+    "numpy==1.23.5",
+    "opencv-python==4.8.1.78",
+    "pillow>=9.1.1",
+    "pyopengl>=3.1.0",
+    "pyrender==0.1.45",
+    "smplx==0.1.28",
+    "timm==1.0.14",
+    "torch==1.13.1",
+    "torchvision==0.14.1",
+    "torchaudio==0.13.1",
+    "torchgeometry>=0.1.2",
+    "tqdm==4.67.1",
+    "trimesh==4.6.2",
+    "ultralytics==8.3.75",
+    "yacs>=0.1.8",
+    "gpt-repository-loader>=0.10.0",
+    "numba>=0.60.0",
+    "boxlib",
+]
+
+
+
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu117", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }
+]
+torchvision = [
+  { index = "pytorch-cu117", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }
+]
+torchaudio = [
+  { index = "pytorch-cu117", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }
+]
+cameralib = { git = "https://github.com/astral-sh/uv.git" }
+boxlib = { git = "https://github.com/isarandi/boxlib.git" }
+
+[[tool.uv.index]]
+name = "pytorch-cu117"
+url = "https://download.pytorch.org/whl/cu117"
+explicit = true
