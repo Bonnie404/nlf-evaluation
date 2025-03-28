@@ -6,7 +6,7 @@
 
 ## Overview
 This repository contains the evaluation code for the paper [**"Neural Localizer Fields for Continuous 3D Human Pose and Shape Estimation"**](https://arxiv.org/abs/2407.07532) on a custom dataset. The code computes the MPJPE (Mean Per Joint Position Error) using the Neural Localizer Fields (NLF) model, projects the 3D SMPL model to 2D, and visualizes the results by saving the images as well as generating a video.  
-A sample output video can be seen [on youtube](https://youtu.be/8d8DcvCQFGs) (Note: The model is not fine-tuned for the Drive&Act dataset -- the video has illustrative purposes only).
+A sample output video can be seen [on youtube](https://youtu.be/8d8DcvCQFGs) (Note: The model is not fine-tuned for the Drive&Act dataset and has illustrative purposes only).
 
 For comparison, previews of other methods can be also seen on youtube:
 - [SMPLest-X](https://youtu.be/rc0tO6B85pU)
